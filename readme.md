@@ -39,3 +39,29 @@ var str = 'a\nbc'
 var code = `return ${JSON.stringify(str)}`
 (new Function(code))()
 ```
+### 解析差值
+
+_c('div', [_v("hello {{msg}}")])
+_c('div', [_v("hello "+_s(msg))])
+
+"hello {{msg}}"
+"hello "+_s(msg)
+
+```js
+var str = "hello {{msg}} foo {{bar}}";
+var reg = /\{\{(\w+)\}\}/;
+str.split(/(?=\{\{)|(?<=\}\})/g).map(item => {
+   var match = null;
+   if (match = item.match(reg)) {
+      return {
+         flag: true,
+         value: match[1]
+      }
+   } else {
+      return {
+         flag: false,
+         value: item
+      }
+   }
+})
+```
